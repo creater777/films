@@ -3,17 +3,21 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 use app\models\Directors;
 /**
  * Films - модель фильма, реализует методы доступа и модель поведения
  *
  * @property integer $id - идентификатор
- * @property name
- * @property date_create / дата создания записи
- * @property date_update / дата обновления записи
- * @property preview / путь к картинке постера фильма
- * @property date / дата выхода фильма
- * @property director_id / ид режиссера в таблице режиссеры
+ * @property string name
+ * @property integer date_create / дата создания записи
+ * @property integer date_update / дата обновления записи
+ * @property string preview / путь к картинке постера фильма
+ * @property integer date / дата выхода фильма
+ * @property integer director_id / ид режиссера в таблице режиссеры
  */
 class Films extends \yii\db\ActiveRecord
 {
@@ -34,7 +38,8 @@ class Films extends \yii\db\ActiveRecord
         return [
             ['dateInner', 'date', 'format' => 'php:d.m.Y'],
             [['name'], 'string'],
-            [['preview'], 'string', 'max' => 512],
+            [['director_id'], 'integer'],
+            //[['preview'], 'image',  'skipOnEmpty' => false],
         ];
     }
 
@@ -99,21 +104,42 @@ class Films extends \yii\db\ActiveRecord
     }
     
     /**
-     * Действие перед сохранение новости
-     * при добавление устанавливается значение createat,
-     * updateat при любом сохранении
+     * Действие перед сохранением
      * @param type $insert
      * @return boolean
      */
     public function beforeSave($insert) {
         parent::beforeSave($insert);
         if ($insert){
-            $this->createat = time();
+            $this->date_create = time();
         }
-        if (!isset($this->date) || $this->date ==0){
-            $this->date = time();
+        $this->date_update = time();
+        $file = UploadedFile::getInstance($this, 'preview');
+        if (!$file){
+            return true;
         }
-        $this->updateat = time();
+
+        $dir = __DIR__ . '/../web/img/';
+        if (!file_exists($dir . $this->id . '/')){
+            mkdir($dir . $this->id . '/');
+        }
+        $nameThumb = $this->id . '/' . 'thumb-' . $this->id;
+        $nameOrigin = $this->id . '/' . $this->id;
+        $ext = '.' . $file->getExtension();
+
+        $uploaded = $file->saveAs( $dir . $nameOrigin . $ext);
+        if (!$uploaded){
+            return false;
+        }
+        
+        $img = Image::getImagine()->open($dir . $nameOrigin . $ext);
+        $size = $img->getSize();
+        $width = 200;
+        $height = round($size->getHeight() * $width/$size->getWidth());
+        $box = new Box ($width, $height);
+        $img->resize($box)->save($dir . $nameThumb. $ext);
+        $this->preview = Url::base() . '/img/'. $nameThumb . $ext;
+
         return true;
     }
     

@@ -8,9 +8,8 @@ use app\models\Films;
  * Режисеры - модель режисеров
  *
  * @property integer $id - идентификатор
- * @property id
- * @property firstname / имя режиссера
- * @property lastname / фамилия режиссера
+ * @property string firstname / имя режиссера
+ * @property string lastname / фамилия режиссера
  * 
  */
 class Directors extends \yii\db\ActiveRecord{
@@ -20,6 +19,15 @@ class Directors extends \yii\db\ActiveRecord{
     public static function tableName()
     {
         return 'directors';
+    }
+    
+    public static function getAll(){
+        $rows = self::find()->all();
+        $result = [];
+        foreach($rows as $row){
+            $result[$row->id] = $row->firstname. ' ' . $row->lastname;
+        }
+        return $result;
     }
     
     public function getFilms(){

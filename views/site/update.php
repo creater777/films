@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Films */
 
-$this->title = 'Редактировать новость: ' . $model->subj;
+$this->title = 'Редактировать фильм: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Films', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактировать';

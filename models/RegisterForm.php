@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\base\Model;
 
 /**
  * Форма регистрации
@@ -90,4 +89,16 @@ class RegisterForm extends User
         return true;
     }
 
+    /**
+     * Формирование и отправка письма с ссылкой подтвержения регистрации
+     * @param type $user - объект User
+     * @return type
+     */
+    public static function sendConfirm($user){
+        return Yii::$app->mailer->compose('confirm', ['model' => $user])
+            ->setTo([$user->email => $user->username])
+            ->setFrom(Yii::$app->params['adminEmail'])
+            ->setSubject('Подтверждение регистрации на сайте')
+            ->send();
+    }
 }

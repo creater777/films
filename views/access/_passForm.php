@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 ?>
 <div class="users-form">
-    <?php $form = ActiveForm::begin(['action' => Url::toRoute(['pswchange', 'id' => $model->id])]); ?>
+    <?php $form = ActiveForm::begin(); ?>
     
     <?= $form->field($model, 'passwordInner')->passwordInput() ?>
 

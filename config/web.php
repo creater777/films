@@ -45,9 +45,6 @@ $config = [
             'rules' => [
             ],
         ],
-//        'eventsInit'=>[
-//            'class' => 'app\components\EventsInit',
-//        ],        
     ],
     'params' => $params,
 ];

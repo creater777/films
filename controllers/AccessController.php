@@ -27,7 +27,7 @@ class AccessController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'logout', 'error', 'register', 'confirmemail', 'captcha', 'resendemail'],
+                        'actions' => ['index', 'login', 'logout', 'error', 'register', 'confirmemail', 'captcha', 'resendemail','pswchange'],
                         'allow' => true,
                     ],
                 ],
@@ -113,7 +113,7 @@ class AccessController extends Controller
             'model' => $model,
         ]);
     }
-    
+
     /**
      * Действие на переотправку пароля
      * @param type $authKey - ключ авторизации который был присвоен пользователю

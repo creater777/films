@@ -7,7 +7,6 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use app\assets\AppAsset;
-use app\models\User;
 
 AppAsset::register($this);
 ?>
@@ -36,29 +35,22 @@ $this->registerJs('
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Новости',
+        'brandLabel' => 'Главная',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $items = array(
-        ['label' => 'Новости', 'url' => ['/site/index']],
+    $items = [
+        ['label' => 'Главная', 'url' => ['/site/index']],
         Yii::$app->user->isGuest ? (
             ['label' => 'Вход', 'url' => ['/access/login']]
         ) : (
             ['label' => 'Выход (' . Yii::$app->user->identity->username . ')', 'url' => ['/access/logout']]
         ),
-    );
+    ];
     if (Yii::$app->user->isGuest){
         $items[] = ['label' => 'Регистрация', 'url' => ['/access/register']];
-    }
-    if (Yii::$app->user->can(User::ROLE_ADMIN)){
-        $items[] = ['label' => 'Пользователи', 'url' => ['/users']];
-        $items[] = ['label' => 'События', 'url' => ['/events']];
-    }
-    if (!Yii::$app->user->isGuest){
-        $items[] = ['label' => 'Профиль', 'url' => ['/users/update', 'id' => Yii::$app->user->getId()]];
     }
     
     echo Nav::widget([

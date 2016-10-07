@@ -54,18 +54,18 @@ class PasswordForm extends User
      */
     public function activate($user)
     {
-        if (!$this->validate() || !isset($user) || !($user instanceof app\models\User)){
+        if (!$this->validate()){
             return false;
         }
 
         $user->setPassword($this->passwordInner);
         $user->activateUser();
+        $user->setRole(User::ROLE_MODERATOR);
         try{
             if (!$user->update(false)){
                 $this->addError('error', "Внутренняя ошибка. Обратитесь к администратору.");
                 return false;
             }
-            $user->setRole(User::ROLE_USER);
         } catch (\Exception $ex) {
             Yii::error($ex->getMessage() . $ex->getTraceAsString());
             $this->addError('error', "Ошибка при сохранении параметров пользователя.");

@@ -16,8 +16,7 @@ class FilmsSearch extends Films
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['subj', 'date', 'post'], 'safe'],
+            [['date', 'name', 'director'], 'safe'],
         ];
     }
 
@@ -55,8 +54,8 @@ class FilmsSearch extends Films
             'date' => $this->date,
         ]);
 
-        $query->andFilterWhere(['like', 'subj', $this->subj])
-            ->andFilterWhere(['like', 'post', $this->post]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'director.firstname', $this->director->firstname]);
 
         return $dataProvider;
     }

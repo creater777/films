@@ -4,7 +4,6 @@ namespace app\controllers;
 use Yii;
 use yii\console\Controller;
 use app\models\User;
-use app\controllers\UserRule;
  
 /**
  * Инициализация доступов
@@ -20,26 +19,22 @@ class RbacController extends Controller
     public function actionInit()
     {
         $auth = Yii::$app->authManager;
-        $auth->removeAll(); //удаляем старые данные
+        //$auth->removeAll(); //удаляем старые данные
 
         //Права редактора
         $editFilms = $auth->createPermission(User::PERMISSION_EDITFILMS);
-        $editFilms->description = 'Редактирование новостей';
         $auth->add($editFilms);
 
         //Добавляем роли
         $moder = $auth->createRole(User::ROLE_MODERATOR);
         $moder->description = User::getRoleList()[User::ROLE_MODERATOR];
         $auth->add($moder);
-        $auth->addChild($moder,$user);
         $auth->addChild($moder,$editFilms);
 
         $admin = $auth->createRole(User::ROLE_ADMIN);
         $admin->description = User::getRoleList()[User::ROLE_ADMIN];
         $auth->add($admin);
-        $auth->addChild($admin,$viewFilms);
         $auth->addChild($admin,$editFilms);
-        $auth->addChild($admin,$userEdit);
         
         //Заведение администратора
         if ($adminUser=User::findByUsername("admin")){

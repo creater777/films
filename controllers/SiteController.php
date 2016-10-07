@@ -27,11 +27,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'error', 'setfilmsinpage'],
+                        'actions' => ['view', 'index', 'error', 'setfilmsinpage'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view', 'logout', 'create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => [User::PERMISSION_EDITFILMS],
                     ],
@@ -86,7 +86,7 @@ class SiteController extends Controller
         $model = new Films();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -104,7 +104,7 @@ class SiteController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

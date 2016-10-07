@@ -21,11 +21,23 @@ class m161006_092300_filmsModelInsert extends Migration
         $model->setAttributes([
             'id' => '1',
             'name' => 'Дом странных детей Мисс Перегрин',
-            'date_create' => '100',
-            'date_update' => '100',
             'preview' => '',
-            'date' => '100',
+            'date' => '1475821264',
             'director_id' => '1',
+        ], false);
+        if(!$model->save()){
+            $this->stderr('Fail save model with attributes '
+                .VarDumper::dumpAsString($model->getAttributes()).' with errors '
+                .VarDumper::dumpAsString($model->getErrors()));
+                throw new Exception('Fail save $model');
+        }
+        $model = new Films();
+        $model->setAttributes([
+            'id' => '2',
+            'name' => 'Глубоководный горизонт',
+            'preview' => '/films/web/img/2/thumb-2.jpg',
+            'date' => '1473714000',
+            'director_id' => '2',
         ], false);
         if(!$model->save()){
             $this->stderr('Fail save model with attributes '
@@ -35,10 +47,22 @@ class m161006_092300_filmsModelInsert extends Migration
         }
         
         $model = new Directors();
-        $model->setAttribute([
+        $model->setAttributes([
             'id' => '1',
             'firstname' => 'Тим',
             'lastname' => 'Бёртон',
+        ], false);
+        if(!$model->save()){
+            $this->stderr('Fail save model with attributes '
+                .VarDumper::dumpAsString($model->getAttributes()).' with errors '
+                .VarDumper::dumpAsString($model->getErrors()));
+                throw new Exception('Fail save $model');
+        }
+        $model = new Directors();
+        $model->setAttributes([
+            'id' => '2',
+            'firstname' => 'Питер',
+            'lastname' => 'Берг',
         ], false);
         if(!$model->save()){
             $this->stderr('Fail save model with attributes '

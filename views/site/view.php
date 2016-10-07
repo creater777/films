@@ -7,7 +7,7 @@ use app\models\User;
 /* @var $this yii\web\View */
 /* @var $model app\models\Films */
 
-$this->title = $model->subj;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Films', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -33,11 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'template' => '<tr><th></th><td>{value}</td></tr>',
+        //'template' => '<tr><th></th><td>{value}</td></tr>',
         'model' => $model,
         'attributes' => [
             'dateInner',
-            'post:ntext',
+            'preview:image',
+            'director.fullName',
         ],
     ]) ?>
 

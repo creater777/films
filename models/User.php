@@ -32,9 +32,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * Ограничения в правах
      */
     const PERMISSION_VIEWFILMS = "viewFilms";
-    const PERMISSION_EDITPROFILE = "editProfile";
     const PERMISSION_EDITFILMS = "editFilms";
-    const PERMISSION_USEREDIT = "userEdit";
 
     private $_role = null;
     
@@ -217,11 +215,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             if (!is_array($appRoles) || empty($appRoles)){
                 return null;
             }
-            $roles = [];
-            foreach ($appRoles as $role){
-                $roles[] = $role->name;
-            }
-            $this->_role = $roles[0];
+            $this->_role = $appRoles[0];
         }
         return $this->_role;
     }
@@ -244,8 +238,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     
     /**
-     * После сохранения рассылаем администраторам оповещение по email при создании.
-     * Отправляем пользователю оповещение при смене пароля
+     * После сохранения
      * @param type $insert
      * @param type $changedAttributes
      */
@@ -262,13 +255,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
         if ($insert){
             RegisterForm::sendConfirm($this);
-            $admins = Yii::$app->authManager->getUserIdsByRole(self::ROLE_ADMIN);
-            foreach ($admins as $id){
-                RegisterForm::sendNewUser($this->findIdentity($id));
-            }
-        }
-        if(!$insert && isset($changedAttributes['password'])){
-            RegisterForm::sendPswChanged($this);
         }
         return true;
     }

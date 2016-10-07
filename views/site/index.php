@@ -34,13 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
             $columns = [
                 'dateInner',
                 'name',
-                'director.firstname',
+                'director.fullName',
             ];
             if (Yii::$app->user->can(User::PERMISSION_EDITFILMS)){
-                $template = '{update} {view}';
-            }
-            if (Yii::$app->user->can(User::ROLE_ADMIN)){
                 $template = '{update} {view} {delete}';
+            } else{
+                $template = '{view}';
             }
             if (isset($template)){
                 $columns[] = [

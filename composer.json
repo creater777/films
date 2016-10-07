@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "kartik-v/yii2-date-range": "*",
-        "codeception/codeception": "2.2.4"
+        "codeception/codeception": "2.2.4",
+        "yiisoft/yii2-imagine": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
